@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { subDays } from 'date-fns'
-import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import {
   CartesianGrid,
@@ -29,7 +30,7 @@ export function RevenueChart() {
     to: new Date(),
   })
 
-  const { data: dailyInPeriod } = useQuery({
+  const { data: dailyRevenueInPeriod } = useQuery({
     queryKey: ['metrics', 'revenue-in-period', dateRange],
     queryFn: () =>
       getDailyRevenueInPeriod({
@@ -37,6 +38,15 @@ export function RevenueChart() {
         to: dateRange?.to,
       }),
   })
+
+  const chartData = useMemo(() => {
+    return dailyRevenueInPeriod?.map((chartItem) => {
+      return {
+        date: chartItem.date,
+        receipt: chartItem.receipt / 100,
+      }
+    })
+  }, [dailyRevenueInPeriod])
 
   return (
     <Card className="col-span-6">
@@ -54,9 +64,9 @@ export function RevenueChart() {
         </div>
       </CardHeader>
       <CardContent>
-        {dailyInPeriod && (
+        {chartData ? (
           <ResponsiveContainer width="100%" height={240}>
-            <LineChart data={dailyInPeriod} style={{ fontSize: 12 }}>
+            <LineChart data={chartData} style={{ fontSize: 12 }}>
               <XAxis dataKey="date" axisLine={false} tickLine={false} dy={16} />
               <YAxis
                 stroke="#888"
@@ -80,6 +90,10 @@ export function RevenueChart() {
               />
             </LineChart>
           </ResponsiveContainer>
+        ) : (
+          <div className="flex h-[240px] w-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-foreground" />
+          </div>
         )}
       </CardContent>
     </Card>
