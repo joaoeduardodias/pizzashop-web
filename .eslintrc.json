@@ -3,7 +3,7 @@
     "@rocketseat/eslint-config/react"
   ],
   "plugins": [
-    "eslint-plugin-simple-import-sort"
+    "simple-import-sort"
   ],
   "rules": {
     "simple-import-sort/imports": "error"
