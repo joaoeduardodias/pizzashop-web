@@ -15,7 +15,7 @@
 
 - **Tailwind CSS**: Framework de estilização para desenvolvimento ágil.
 - **React Query**: Biblioteca para gerenciamento de estados e dados em aplicações React.
-- **React Testing Library e Playwright **: Para testes unitários e end-to-end.
+- **React Testing Library e Playwright**: Para testes unitários e end-to-end.
 - **React Hook Form**: Biblioteca para validação de formulários em React.
 - **Mock Service Worker**: Para criação de mocks para os testes.
 
